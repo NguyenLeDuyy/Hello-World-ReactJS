@@ -2,46 +2,22 @@
 // function component
 
 import React from "react";
+import UserInfor from "./Userinfor";
+import DisplayInfor from "./Displayinfor";
 
 class MyComponent extends React.Component {
 
-    state = {
-        name: 'Cucumber',
-        address: 'NguyenLeDuy1012',
-        age: 21,
-    };
 
-    // handleClick = (event) => {
-    //     console.log(" >> Click me my button <<");
-    //     console.log(" My name is ", this.state.name);
-    // }
-
-    handleClick(event) {
-        console.log(" >> Click me my button <<");
-
-        // merge State => chỉ có trong React class
-        this.setState({
-            name: 'Duy Nguyễn',
-            age: Math.floor((Math.random() * 100) + 1),
-        })
-
-        // this.setState({
-        //     age: Math.floor((Math.random() * 100) + 1),
-        // })
-    }
-
-    handleOnMouseOver(event) {
-        // console.log(event.pageX);
-
-    }
-
+    // JSX
     render() {
+        const myInfor = ['ab', 'c', 'c']
         return (
             <div>
-
-                My name is {this.state.name} and I'm {this.state.age}
-                <button onClick={(event) => { this.handleClick(event) }}>Click me</button>
-                <button onMouseOver={this.handleOnMouseOver}>Hover me</button>
+                <UserInfor />
+                <br /><br />
+                <DisplayInfor name="Nguyễn Lê Duy" age="19" />
+                <hr />
+                <DisplayInfor name="Duy Nguyễn" age={20} myInfor={myInfor} />
             </div>
         )
     }
