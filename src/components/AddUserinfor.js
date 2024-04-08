@@ -1,6 +1,6 @@
 import React from "react";
 
-class UserInfor extends React.Component {
+class AddUserInfor extends React.Component {
 
     state = {
         name: 'Cucumber',
@@ -21,8 +21,12 @@ class UserInfor extends React.Component {
     }
 
     handleOnSubmit = (event) => {
-        event.preventDefault();
-        console.log(this.state);
+        event.preventDefault(); //Khi bạn submit một form trong HTML, hành vi mặc định là trang sẽ được tải lại (refresh).
+        this.props.handleAddNewUser({
+            id: Math.floor((Math.random() * 100) + 1) + ' - random',
+            name: this.state.name,
+            age: this.state.age,
+        });
     }
 
     render() {
@@ -32,14 +36,14 @@ class UserInfor extends React.Component {
                 <form onSubmit={(event) => this.handleOnSubmit(event)}>
                     <label>Your name:</label>
                     <input
-                        value={this.state.name}
+                        // value={this.state.name}
                         type="text"
                         onChange={(event) => this.handleOnChangeInput(event)}
                     />
 
                     <label>Your age:</label>
                     <input
-                        value={this.state.age}
+                        // value={this.state.age}
                         type="text"
                         onChange={(event) => this.handleOnChangeAge(event)}
                     />
@@ -50,4 +54,4 @@ class UserInfor extends React.Component {
     }
 }
 
-export default UserInfor;
+export default AddUserInfor;
