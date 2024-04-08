@@ -33,7 +33,7 @@ class DisplayInfor extends React.Component {
                     </span>
                 </div>
                 {this.state.isShowListUser &&
-                    <div>
+                    <>
                         {listUsers.map((user, index) => { // không nên dùng index làm 'key' vì dễ bị bug
                             return (
                                 <div key={user.id} className={+user.age > 18 ? "green" : "red"}>
@@ -44,7 +44,7 @@ class DisplayInfor extends React.Component {
                             )
                         })
                         }
-                    </div >
+                    </>
                 }
             </div>
         )
