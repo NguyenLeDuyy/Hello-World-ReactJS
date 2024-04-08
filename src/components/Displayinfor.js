@@ -19,11 +19,9 @@ class DisplayInfor extends React.Component {
 
         //destructuring array/object
         const { listUsers } = this.props; // "Vì" this.props là một object variable
-        // console.log(listUsers);
-        // console.table(listUsers);
-        // const listUsers = this.props;
-        // console.log(this.props);
-        //props => viết tắt của properties
+
+
+        //template + logic js
         return (
             <div className="display-infor-container">
                 <img src={logooo} alt="Logo"></img>
