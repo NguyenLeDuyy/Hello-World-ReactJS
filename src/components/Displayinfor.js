@@ -1,4 +1,5 @@
 import React from "react";
+import './Displayinfor.scss';
 
 class DisplayInfor extends React.Component {
 
@@ -23,7 +24,7 @@ class DisplayInfor extends React.Component {
         // console.log(this.props);
         //props => viết tắt của properties
         return (
-            <div>
+            <div className="display-infor-container">
                 <div>
                     <span onClick={() => { this.handleShowHide() }}>
                         {this.state.isShowListUser ? "Hide list users: " : "Show list users: "}
@@ -34,7 +35,7 @@ class DisplayInfor extends React.Component {
                         {listUsers.map((user, index) => { // không nên dùng index làm 'key' vì dễ bị bug
                             return (
                                 <div key={user.id} className={+user.age > 18 ? "green" : "red"}>
-                                    <div>My name's {user.name}</div>
+                                    <div style={{ color: 'orange', paddingTop: '50px' }}>My name's {user.name}</div>
                                     <div>My age's {user.age}</div>
                                     <hr />
                                 </div>
