@@ -52,7 +52,7 @@ const DisplayInfor = (props) => {
     const { listUsers } = props; // "Vì" this.props là một object variable
 
     const [isShowHideListUSers, setShowHideListUSers] = useState(true);
-
+    // Destructuring assignment
     // this.state = {
     //     isShowHideListUSers: true,
     // }
