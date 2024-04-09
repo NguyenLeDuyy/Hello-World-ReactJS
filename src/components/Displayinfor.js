@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import './Displayinfor.scss';
 import logooo from './../logo.svg'; //logooo tượng trưng cho tên biến
 
@@ -50,10 +50,29 @@ import logooo from './../logo.svg'; //logooo tượng trưng cho tên biến
 
 const DisplayInfor = (props) => {
     const { listUsers } = props; // "Vì" this.props là một object variable
+
+    const [isShowHideListUSers, setShowHideListUSers] = useState(true);
+
+    // this.state = {
+    //     isShowHideListUSers: true,
+    // }
+
+    const handleShowHideListUsers = () => {
+        // alert('Oke nhas ')
+        // this.setState({
+        //     isShowHideListUSers: true,
+        // })
+        setShowHideListUSers(!isShowHideListUSers)
+    }
+
     return (
         <div className="display-infor-container">
-
-            {true &&
+            <div>
+                <span onClick={() => handleShowHideListUsers()}>
+                    {isShowHideListUSers === true ? "Hide list users: " : "Show list users: "}
+                </span>
+            </div>
+            {isShowHideListUSers &&
                 <>
                     {listUsers.map((user, index) => { // không nên dùng index làm 'key' vì dễ bị bug
                         return (
