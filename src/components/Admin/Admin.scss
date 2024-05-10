@@ -50,3 +50,17 @@ $icon-size                 : 35px;
 
     // Add this closing curly brace
 }
+
+.admin-content {
+    width: 100%;
+
+    .admin-header {
+        height: 40px;
+        border: 1px solid green;
+    }
+
+    .admin-main {
+        height: auto;
+        border: 1px solid red;
+    }
+}

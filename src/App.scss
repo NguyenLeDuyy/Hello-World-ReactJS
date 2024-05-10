@@ -76,12 +76,14 @@ body {
         font-size: 25px;
       }
 
+      // .title-3
       .my-btn {
         border-radius: 5px;
         padding      : 0 15px;
         background   : #303030;
         color        : white;
         height       : 40px;
+        border       : none;
 
         &:hover {
           background: #000;
