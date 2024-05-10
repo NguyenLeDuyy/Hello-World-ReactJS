@@ -1,3 +1,12 @@
+$sidebar-bg-color          : #0c1e35;
+$submenu-bg-color          : rgba(255, 255, 255, 0.05);
+$submenu-bg-color-collapsed: rgba(#0c1e35, 0.95);
+$sidebar-color             : #b3b8d4;
+$highlight-color           : #dee2ec;
+$icon-bg-color             : rgba(255, 255, 255, 0.05);
+$icon-size                 : 35px;
+
+
 .admin-container {
     display: flex;
 
@@ -6,4 +15,38 @@
             height: 100vh !important;
         }
     }
+}
+
+.sidebar-btn-wrapper {
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
+
+    .sidebar-btn {
+        transition     : width 0.3s;
+        width          : 150px;
+        padding        : 1px 15px;
+        border-radius  : 40px;
+        background     : rgba(255, 255, 255, 0.05);
+        color          : #adadad;
+        text-decoration: none;
+        margin         : 0 auto;
+        height         : 35px;
+        display        : flex;
+        align-items    : center;
+        justify-content: center;
+        text-overflow  : ellipsis;
+        overflow       : hidden;
+
+        span {
+            margin-left: 5px;
+            font-size  : 13px;
+        }
+
+        &:hover {
+            color: $highlight-color;
+        }
+    }
+
+    // Add this closing curly brace
 }
