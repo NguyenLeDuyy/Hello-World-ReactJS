@@ -68,6 +68,7 @@ const ModalCreateUser = (props) => {
             // toast.success('Create a new participant succeed')
             toast.success(data.EM)
             handleClose()
+            await props.fetchListUsers();
         }
         else if (data && data.EC != 0) {
             // toast.error('The email ' + email + ' is already exist')
