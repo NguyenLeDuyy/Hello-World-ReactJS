@@ -2,8 +2,9 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { TbCirclePlus } from "react-icons/tb";
-import axios from 'axios';
 import { toast } from 'react-toastify';
+import { postCreateNewUser } from "../../../service/apiServices";
+
 
 const ModalCreateUser = (props) => {
     const { show, setShow } = props;
@@ -61,21 +62,16 @@ const ModalCreateUser = (props) => {
             return;
         }
 
-        const data = new FormData();
-        data.append('email', email);
-        data.append('password', password);
-        data.append('username', username);
-        data.append('role', role);
-        data.append('userImage', image);
-
-        let res = await axios.post('http://localhost:8081/api/v1/participant', data)
-
-        if (res.data && res.data.EC == 0) {
-            toast.success('Create a new participant succeed')
+        let data = await postCreateNewUser(email, password, username, role, image);
+        console.log("component res: ", data);
+        if (data && data.EC == 0) {
+            // toast.success('Create a new participant succeed')
+            toast.success(data.EM)
             handleClose()
         }
-        else if (res.data && res.data.EC != 0) {
-            toast.error('The email ' + email + ' is already exist')
+        else if (data && data.EC != 0) {
+            // toast.error('The email ' + email + ' is already exist')
+            toast.error(data.EM)
         }
     }
 
@@ -94,7 +90,7 @@ const ModalCreateUser = (props) => {
                 <Modal.Body>
                     <form className="row g-3">
                         <div className="col-md-6">
-                            <label for="inputEmail4" className="form-label">Email</label>
+                            <label className="form-label">Email</label>
                             <input type="email"
                                 className="form-control"
                                 value={email}

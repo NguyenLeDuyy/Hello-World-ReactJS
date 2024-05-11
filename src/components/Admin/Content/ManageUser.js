@@ -2,6 +2,7 @@ import ModalCreateUser from "./ModalCreateUser";
 import './ManageUser.scss';
 import { TbCirclePlus } from "react-icons/tb";
 import { useState } from "react";
+import TableUser from "./TableUser";
 
 
 
@@ -21,7 +22,7 @@ const ManageUser = (props) => {
                     </button>
                 </div>
                 <div className="table-users-container">
-                    table users
+                    <TableUser />
                 </div>
                 <ModalCreateUser
                     show={showModalCreateUser}
