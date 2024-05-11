@@ -28,7 +28,6 @@ const ManageUser = (props) => {
 
     const fetchListUsers = async () => {
         let res = await getAllUsers();
-        // console.log(res)
         if (res.EC === 0) {
             setListUsers(res.DT);
         }
@@ -90,15 +89,14 @@ const ManageUser = (props) => {
                     show={showModalViewUser}
                     setShow={setShowModalViewUser}
                     dataView={dataView}
-                    // fetchListUsers={fetchListUsers}
                     resetUpdateData={resetUpdateData}
                 />
             </div>
             <ModalDeleteUser
                 show={showModalDeleteUser}
                 setShow={setShowModalDeleteUser}
+                fetchListUsers={fetchListUsers}
                 dataDelete={dataDelete}
-
             />
         </div>
     )

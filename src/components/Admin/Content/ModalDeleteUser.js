@@ -6,13 +6,20 @@ import { deleteUser } from '../../../service/apiServices';
 
 const ModalDeleteUser = (props) => {
     const { show, setShow, dataDelete } = props;
-    // const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const handleSubmitDeleteUser = () => {
-        alert('me');
+    const handleSubmitDeleteUser = async () => {
+        let data = await deleteUser(dataDelete.id);
+        if (data && data.EC == 0) {
+            toast.success(data.EM)
+            handleClose()
+            await props.fetchListUsers();
+        }
+        else if (data && data.EC != 0) {
+            toast.error(data.EM)
+        }
     }
     return (
         <>
@@ -33,7 +40,7 @@ const ModalDeleteUser = (props) => {
                     <Button variant="secondary" onClick={handleClose}>
                         Cancel
                     </Button>
-                    <Button variant="primary" onClick={handleSubmitDeleteUser}>
+                    <Button variant="primary" onClick={() => { handleSubmitDeleteUser() }}>
                         Confirm
                     </Button>
                 </Modal.Footer>
