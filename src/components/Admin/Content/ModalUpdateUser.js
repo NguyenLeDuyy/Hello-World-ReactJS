@@ -1,13 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { TbCirclePlus } from "react-icons/tb";
 import { toast } from 'react-toastify';
 import { postCreateNewUser } from "../../../service/apiServices";
+import _ from 'lodash';
 
-
-const ModalCreateUser = (props) => {
-    const { show, setShow } = props;
+const ModalUpdateUser = (props) => {
+    const { show, setShow, dataUpdate } = props;
     // const [show, setShow] = useState(false);
 
     const handleClose = () => {
@@ -19,7 +19,7 @@ const ModalCreateUser = (props) => {
         setImage("");
         setPreviewImage("");
     };
-    // const handleShow = () => setShow(true);
+    const handleShow = () => setShow(true);
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -27,6 +27,21 @@ const ModalCreateUser = (props) => {
     const [role, setRole] = useState("USER");
     const [image, setImage] = useState("");
     const [previewImage, setPreviewImage] = useState("");
+
+    useEffect(() => {
+        console.log('check useEffect', dataUpdate)
+        if (!_.isEmpty(dataUpdate)) {
+            //update state
+            setEmail(dataUpdate.email);
+            setUsername(dataUpdate.username);
+            setRole(dataUpdate.role);
+            setImage("");
+            if (dataUpdate.image) {
+                setPreviewImage(`data: image / jpeg; base64, ${dataUpdate.image}`);
+            }
+        }
+    }, [dataUpdate])
+    // chỗ này quan trọng! dataUpdate nằm trong dependencies này thì mỗi lần nay đổi giá trị (mỗi lần ấn vào button update => setdataUpdate(user)) thì sẽ chạy lại hook useEffect này
 
     const handleUploadImage = (event) => {
         if (event.target && event.target.files && event.target.files[0]) {
@@ -77,6 +92,9 @@ const ModalCreateUser = (props) => {
         }
     }
 
+    // console.log(dataUpdate)
+
+    console.log('check render: dataupdate', dataUpdate);
     return (
         <>
             <Modal
@@ -87,7 +105,7 @@ const ModalCreateUser = (props) => {
                 className='modal-add-user'
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Add new user</Modal.Title>
+                    <Modal.Title>Update a user</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form className="row g-3">
@@ -96,6 +114,8 @@ const ModalCreateUser = (props) => {
                             <input type="email"
                                 className="form-control"
                                 value={email}
+                                disabled
+                                //= disabled={true}
                                 onChange={(event) => setEmail(event.target.value)}
                             />
                         </div>
@@ -104,6 +124,7 @@ const ModalCreateUser = (props) => {
                             <input type="password"
                                 className="form-control"
                                 value={password}
+                                disabled
                                 onChange={(event) => setPassword(event.target.value)}
                             />
                         </div>
@@ -161,4 +182,4 @@ const ModalCreateUser = (props) => {
     );
 }
 
-export default ModalCreateUser;
+export default ModalUpdateUser;
