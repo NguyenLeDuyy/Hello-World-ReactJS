@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import _ from 'lodash';
 
 const ModalViewUser = (props) => {
-    const { show, setShow, dataUpdate } = props;
+    const { show, setShow, dataView } = props;
     // const [show, setShow] = useState(false);
 
     const handleClose = () => {
@@ -28,19 +28,17 @@ const ModalViewUser = (props) => {
     const [previewImage, setPreviewImage] = useState("");
 
     useEffect(() => {
-        console.log('check useEffect', dataUpdate)
-        if (!_.isEmpty(dataUpdate)) {
+        if (!_.isEmpty(dataView)) {
             //update state
-            setEmail(dataUpdate.email);
-            setUsername(dataUpdate.username);
-            setRole(dataUpdate.role);
+            setEmail(dataView.email);
+            setUsername(dataView.username);
+            setRole(dataView.role);
             setImage("");
-            if (dataUpdate.image) {
-                setPreviewImage(`data: image / jpeg; base64, ${dataUpdate.image}`);
+            if (dataView.image) {
+                setPreviewImage(`data: image / jpeg; base64, ${dataView.image}`);
             }
         }
-    }, [dataUpdate])
-    // chỗ này quan trọng! dataUpdate nằm trong dependencies này thì mỗi lần nay đổi giá trị (mỗi lần ấn vào button update => setdataUpdate(user)) thì sẽ chạy lại hook useEffect này
+    }, [dataView])
 
     const handleUploadImage = (event) => {
         if (event.target && event.target.files && event.target.files[0]) {
@@ -53,10 +51,6 @@ const ModalViewUser = (props) => {
         console.log('Upload file', event.target.files[0])
     }
 
-
-    // console.log(dataUpdate)
-
-    // console.log('check render: dataupdate', dataUpdate);
     return (
         <>
             <Modal
