@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { TbCirclePlus } from "react-icons/tb";
 import { toast } from 'react-toastify';
-import { postCreateNewUser } from "../../../service/apiServices";
+import { putUpdateUser } from "../../../service/apiServices";
 import _ from 'lodash';
 
 const ModalUpdateUser = (props) => {
@@ -18,8 +18,8 @@ const ModalUpdateUser = (props) => {
         setRole("USER");
         setImage("");
         setPreviewImage("");
+        props.resetUpdateData();
     };
-    const handleShow = () => setShow(true);
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -73,12 +73,7 @@ const ModalUpdateUser = (props) => {
             return;
         }
 
-        if (!password) {
-            toast.error('Invalid password')
-            return;
-        }
-
-        let data = await postCreateNewUser(email, password, username, role, image);
+        let data = await putUpdateUser(dataUpdate.id, username, role, image);
         console.log("component res: ", data);
         if (data && data.EC == 0) {
             // toast.success('Create a new participant succeed')
@@ -94,7 +89,7 @@ const ModalUpdateUser = (props) => {
 
     // console.log(dataUpdate)
 
-    console.log('check render: dataupdate', dataUpdate);
+    // console.log('check render: dataupdate', dataUpdate);
     return (
         <>
             <Modal
