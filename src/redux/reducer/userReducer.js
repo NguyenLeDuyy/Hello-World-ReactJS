@@ -1,5 +1,8 @@
 
 import { INCREMENT, DECREMENT } from '../action/counterAction';
+
+import { FETCH_USER_LOGIN_SUCCES } from '../action/userAction';
+
 const INITIAL_STATE = {
     account: {
         access_token: '',
@@ -13,8 +16,7 @@ const INITIAL_STATE = {
 };
 const userReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case 'FETCH_USER_LOGIN_SUCCES':
-            console.log("check action: ", action)
+        case FETCH_USER_LOGIN_SUCCES:
             return {
                 ...state,
                 account: {

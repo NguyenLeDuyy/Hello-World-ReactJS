@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { postLogin } from '../../service/apiServices';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
+import { doLogin } from '../../redux/action/userAction';
 
 const Login = (props) => {
     const [email, setEmail] = useState("");
@@ -22,10 +23,7 @@ const Login = (props) => {
         //submit apis
         let data = await postLogin(email, password);
         if (data && data.EC === 0) {
-            dispatch({
-                type: 'FETCH_USER_LOGIN_SUCCES',
-                payload: data
-            })
+            dispatch(doLogin(data))
             toast.success(data.EM)
             navigate("/")
         }
