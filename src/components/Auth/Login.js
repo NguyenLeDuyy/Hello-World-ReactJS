@@ -27,11 +27,14 @@ const Login = (props) => {
         }
     }
 
+
     return (
         <div className="login-container">
             <div className='header'>
                 <span>Don't have an account yet?</span>
-                <button>Sign up</button>
+                <button
+                    onClick={() => { navigate('/signup') }}
+                >Sign up</button>
             </div>
             <div className='title col-4 mx-auto'>
                 Group 10

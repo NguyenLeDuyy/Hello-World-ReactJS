@@ -8,7 +8,6 @@ import { postCreateNewUser } from "../../../service/apiServices";
 
 const ModalCreateUser = (props) => {
     const { show, setShow } = props;
-    // const [show, setShow] = useState(false);
 
     const handleClose = () => {
         setShow(false);
@@ -19,7 +18,6 @@ const ModalCreateUser = (props) => {
         setImage("");
         setPreviewImage("");
     };
-    // const handleShow = () => setShow(true);
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -53,8 +51,6 @@ const ModalCreateUser = (props) => {
 
         if (!isValidEmail) {
             toast.error('Invalid email')
-            // toast.success('Test succes')
-            // toast.info('Test information')
             return;
         }
 

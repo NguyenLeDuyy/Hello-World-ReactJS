@@ -1,0 +1,88 @@
+.signup-container {
+    .header {
+        height         : 45px;
+        text-align     : right;
+        padding        : 5px 100px 0 100px;
+        display        : flex;
+        flex-direction : row;
+        align-items    : center;
+        justify-content: flex-end;
+
+        button {
+            padding      : 3px 20px;
+            margin-left  : 15px;
+            border-radius: 5px;
+            background   : #f5f3f3;
+            border       : 1px solid;
+
+            &:hover {
+                background-color: white;
+            }
+        }
+
+
+    }
+
+    .title {
+        font-size : 25px;
+        padding   : 25px 0;
+        text-align: center;
+    }
+
+    .welcome {
+        font-size : 20px;
+        padding   : 10px 0;
+        text-align: center;
+    }
+
+    .content-form {
+        display          : flex;
+        flex-direction   : column;
+        // gap           : 15px;
+
+        input {
+            margin-bottom: 15px;
+            margin-top   : 3px;
+        }
+
+        button {
+            width        : 100%;
+            height       : 40px;
+            border       : none;
+            margin       : 20px 0;
+            border-radius: 5px;
+            color        : white;
+            background   : black;
+        }
+
+        .forgot-password {
+            cursor: pointer;
+
+            &:hover {
+                text-decoration: underline;
+            }
+
+        }
+
+        .back {
+            cursor: pointer;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        .pass-group {
+            position: relative;
+
+            .icons-eye {
+                cursor  : pointer;
+                position: absolute;
+                right   : 10px;
+                bottom  : 22px;
+                z-index : 100;
+            }
+        }
+
+    }
+}
