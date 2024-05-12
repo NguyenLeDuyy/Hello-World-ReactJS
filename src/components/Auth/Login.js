@@ -5,13 +5,24 @@ import { postLogin } from '../../service/apiServices';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { doLogin } from '../../redux/action/userAction';
+import { TbFidgetSpinner } from "react-icons/tb";
 
 const Login = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const navigate = useNavigate();
 
+    const [isLoading, setIsLoading] = useState(false);
+
+    const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const validateEmail = (email) => {
+        return String(email)
+            .toLowerCase()
+            .match(
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            );
+    };
 
     const handleClickHomePage = () => {
         navigate("/");
@@ -19,16 +30,29 @@ const Login = (props) => {
 
     const handleLogin = async () => {
         //validate
+        const isValidEmail = validateEmail(email);
 
+        if (!isValidEmail) {
+            toast.error('Invalid email')
+            return;
+        }
+
+        if (!password) {
+            toast.error('Invalid password')
+            return;
+        }
+        setIsLoading(true);
         //submit apis
         let data = await postLogin(email, password);
         if (data && data.EC === 0) {
             dispatch(doLogin(data))
             toast.success(data.EM)
+            setIsLoading(false)
             navigate("/")
         }
         else if (data && +data.EC !== 0) {
-            toast.error(data.EM)
+            toast.error(data.EM);
+            setIsLoading(false);
         }
     }
 
@@ -67,11 +91,15 @@ const Login = (props) => {
                     ></input>
                 </div>
                 <span className='forgot-password'>Forgot password ?</span>
-                <div>
+                <div className='loader'>
                     <button
                         className='btn-submit'
-                        onClick={() => handleLogin()}
-                    >Login to Group 10</button>
+                        onClick={() => { handleLogin() }}
+                        disabled={isLoading}
+                    >
+                        {isLoading === true && <TbFidgetSpinner className='loader-icon' />}
+                        <span> Login to Group 10</span>
+                    </button>
                 </div>
                 <div className='text-center'>
                     <span
@@ -79,7 +107,7 @@ const Login = (props) => {
                         onClick={() => handleClickHomePage()}>&#60;&#60;Go to Homepage</span>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
