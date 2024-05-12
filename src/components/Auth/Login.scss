@@ -1,8 +1,26 @@
 .login-container {
     .header {
-        height    : 45px;
-        text-align: right;
-        border    : 1px solid red;
+        height         : 45px;
+        text-align     : right;
+        padding        : 5px 100px 0 100px;
+        display        : flex;
+        flex-direction : row;
+        align-items    : center;
+        justify-content: flex-end;
+
+        button {
+            padding      : 3px 15px;
+            margin-left  : 15px;
+            border-radius: 5px;
+            background   : #f5f3f3;
+            border       : 1px solid;
+
+            &:hover {
+                background-color: white;
+            }
+        }
+
+
     }
 
     .title {
@@ -35,6 +53,23 @@
             border-radius: 5px;
             color        : white;
             background   : black;
+        }
+
+        .forgot-password {
+            cursor: pointer;
+
+            &:hover {
+                text-decoration: underline;
+            }
+
+        }
+
+        .back {
+            cursor: pointer;
+
+            &:hover {
+                text-decoration: underline;
+            }
         }
     }
 }
