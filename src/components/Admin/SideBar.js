@@ -39,7 +39,7 @@ const SideBar = (props) => {
                         }}
                     >
                         <DiReact size={'3em'} color={'00bfff'} />
-                        Duy Nguyễn Lê
+                        Group 10
                     </div>
                 </SidebarHeader>
 

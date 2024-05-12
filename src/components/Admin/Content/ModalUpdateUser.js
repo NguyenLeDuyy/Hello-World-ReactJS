@@ -62,7 +62,7 @@ const ModalUpdateUser = (props) => {
             );
     };
 
-    const handleSubmitCreateUser = async () => {
+    const handleSubmitUpdateUser = async () => {
         //validate
         const isValidEmail = validateEmail(email);
 
@@ -79,7 +79,7 @@ const ModalUpdateUser = (props) => {
             // toast.success('Create a new participant succeed')
             toast.success(data.EM)
             handleClose()
-            await props.fetchListUsers();
+            await props.fetchListUsersWithPaginate(props.currentPage);
         }
         else if (data && data.EC != 0) {
             // toast.error('The email ' + email + ' is already exist')
@@ -165,7 +165,7 @@ const ModalUpdateUser = (props) => {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={() => handleSubmitCreateUser()}>
+                    <Button variant="primary" onClick={() => handleSubmitUpdateUser()}>
                         Save Changes
                     </Button>
                 </Modal.Footer>
