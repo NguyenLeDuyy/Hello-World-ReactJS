@@ -1,11 +1,13 @@
+import { useNavigate } from 'react-router-dom';
 import videoHomepage from '../../assets/video/video-homepage.mp4'
 import { useSelector } from 'react-redux';
 const HomePage = (props) => {
 
     const isAuthenticated = useSelector(state => state.user.isAuthenticated);
-    const account = useSelector(state => state.user.account);
 
-    console.log('account: ', account, 'isAuthenticated: ', isAuthenticated);
+    const navigate = useNavigate();
+
+
     return (
         <div className="homepage-container">
             <video autoPlay muted loop>
@@ -18,7 +20,19 @@ const HomePage = (props) => {
                 <div className='title'>There's a better way to ask</div>
                 <div className='desc'>You don't want to make a boring form. And your audience won't answer one. Create a typeform instead-and make everyone happy.</div>
                 <div>
-                    <button className='my-btn'>Get started - it's free</button>
+                    {!isAuthenticated ?
+                        <button className='my-btn'
+                            onClick={() => navigate('/login')}
+                        >Get started - it's free</button>
+                        :
+                        <button
+                            className='my-btn'
+                            onClick={() => navigate('/users')}
+                        >
+                            Doing Quiz Now!
+                        </button>
+                    }
+
                 </div>
             </div>
         </div>

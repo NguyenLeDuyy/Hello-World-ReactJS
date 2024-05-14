@@ -10,8 +10,6 @@ const Header = () => {
     const isAuthenticated = useSelector(state => state.user.isAuthenticated);
     const account = useSelector(state => state.user.account);
 
-    console.log('account: ', account, 'isAuthenticated: ', isAuthenticated);
-
     const navigate = useNavigate();
 
     const handleLogin = () => {
@@ -42,7 +40,10 @@ const Header = () => {
                             </>
                             :
                             <NavDropdown title="Settings" id="basic-nav-dropdown">
-                                <NavDropdown.Item>Logout</NavDropdown.Item>
+                                <NavDropdown.Item onClick={() => {
+                                    localStorage.clear();
+                                    window.location.reload();
+                                }}>Logout</NavDropdown.Item>
                                 <NavDropdown.Item>Profile</NavDropdown.Item>
                             </NavDropdown>
                         }
