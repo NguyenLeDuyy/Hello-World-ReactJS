@@ -14,15 +14,14 @@ const ListQuiz = () => {
         const res = await getQuizByUser();
         if (res && res.EC === 0) {
             setArrQuiz(res.DT);
-
+            console.log(res.DT)
         }
     }
 
     return (
 
         <div className="list-quiz-container container">
-            {
-                arrQuiz && arrQuiz.length > 0 &&
+            {arrQuiz && arrQuiz.length > 0 &&
                 arrQuiz.map((quiz, index) => {
                     return (
                         <div key={`${index}-quiz`} className="card" style={{ width: "18rem" }}>
@@ -37,11 +36,11 @@ const ListQuiz = () => {
 
                 })
             }
-            {arrQuiz && arrQuiz.length === 0 &&
+            {/* {arrQuiz && arrQuiz.length === 0 &&
                 <div>
                     You don't have any quiz now...
                 </div>
-            }
+            } */}
 
         </div>
     );
