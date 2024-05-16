@@ -22,6 +22,45 @@ const DetailQuiz = () => {
             setIndex(index + 1)
 
     }
+    const handleFinishQuiz = () => {
+        // {
+        //     "quizId": 1,
+        //         "answers": [
+        //             {
+        //                 "questionId": 1,
+        //                 "userAnswerId": [3]
+        //             },
+        //             {
+        //                 "questionId": 2,
+        //                 "userAnswerId": [6]
+        //             }
+        //         ]
+        // }
+        console.log(">>>> check data before submit: ", dataQuiz)
+        let payload = {
+            quizId: +quizId,
+            answers: []
+        };
+        let answers = [];
+        if (dataQuiz && dataQuiz.length > 0) {
+            dataQuiz.forEach(question => {
+                let questionId = +question.questionId;
+                let userAnswerId = [];
+                question.answers.forEach(answer => { // Iterate over item.answers instead of dataQuiz.answers
+                    if (answer.isSelected === true) {
+                        userAnswerId.push(answer.id)
+                    }
+                })
+                answers.push({
+                    questionId: questionId,
+                    userAnswerId: userAnswerId
+                })
+            })
+            payload.answers = answers; // Move this line outside of the forEach loop
+        }
+        console.log(">>>> payload: ", payload);
+
+    }
 
     const handleCheckBox = (answerId, questionId) => {
         let dataQuizClone = _.cloneDeep(dataQuiz); //react hook doesn't merge state
@@ -34,8 +73,6 @@ const DetailQuiz = () => {
                 return item;
             })
         }
-        // console.log('question.questionId: ', question.questionId)
-        // console.log('questionId: ', questionId)
         let index = dataQuizClone.findIndex(item => +item.questionId === +question.questionId)
         if (index > -1) {
             dataQuizClone[index] = question;
@@ -69,11 +106,9 @@ const DetailQuiz = () => {
                     return { questionId: key, answers, quesDescription, image } // ghi kiểu này bằng answer: answer
                 })
                 .value()
-            console.log("check data: ", data)
             setDataQuiz(data);
         }
     }
-    console.log("check dataquiz", dataQuiz)
     return (
         <div className="detail-quiz-container .container">
             <div className="left-content col-7">
@@ -101,7 +136,7 @@ const DetailQuiz = () => {
                         onClick={() => handleNext()}
                     >Next</button>
                     <button className="btn btn-warning"
-                        onClick={() => handleNext()}
+                        onClick={() => handleFinishQuiz()}
                     >Finish</button>
                 </div>
             </div>
