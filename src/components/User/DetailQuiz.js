@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import { getQuesByQuizId } from "../../service/apiServices";
+import { getDataQuiz, postSubmitQuiz } from "../../service/apiServices";
 import _ from "lodash";
 import './DetailQuiz.scss'
 import Question from "./Question";
+import ModalResult from "./ModalResult";
 
 const DetailQuiz = () => {
     const params = useParams();
     const location = useLocation();
     const quizId = params.id;
-
     const [dataQuiz, setDataQuiz] = useState([]);
     const [index, setIndex] = useState(0);
+
+    const [isShowModalResult, setIsShowModalResult] = useState(false);
+    const [dataModalResult, setDataModalResult] = useState({})
 
     const handlePre = () => {
         if (index - 1 < 0) return;
@@ -22,7 +25,7 @@ const DetailQuiz = () => {
             setIndex(index + 1)
 
     }
-    const handleFinishQuiz = () => {
+    const handleFinishQuiz = async () => {
         // {
         //     "quizId": 1,
         //         "answers": [
@@ -57,9 +60,20 @@ const DetailQuiz = () => {
                 })
             })
             payload.answers = answers; // Move this line outside of the forEach loop
+            //submit api
+            let res = await postSubmitQuiz(payload);
+            console.log("check res: ", res);
+            if (res && res.EC === 0) {
+                setDataModalResult({
+                    countCorrect: res.DT.countCorrect,
+                    countTotal: res.DT.countTotal,
+                    quizData: res.DT.quizData
+                })
+                setIsShowModalResult(true)
+            } else {
+                alert("something went wrong.....")
+            }
         }
-        console.log(">>>> payload: ", payload);
-
     }
 
     const handleCheckBox = (answerId, questionId) => {
@@ -85,7 +99,7 @@ const DetailQuiz = () => {
     }, [quizId])
 
     const fetchQuestions = async () => {
-        const res = await getQuesByQuizId(Number(quizId))
+        const res = await getDataQuiz(Number(quizId))
         if (res && res.EC === 0) {
             let raw = res.DT;
             let data = _.chain(raw)
@@ -143,6 +157,11 @@ const DetailQuiz = () => {
             <div className="right-content col-5">
                 count down
             </div>
+            <ModalResult
+                show={isShowModalResult}
+                setShow={setIsShowModalResult}
+                dataModalResult={dataModalResult}
+            />
         </div >
     );
 };
