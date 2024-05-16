@@ -23,6 +23,26 @@ const DetailQuiz = () => {
 
     }
 
+    const handleCheckBox = (answerId, questionId) => {
+        let dataQuizClone = _.cloneDeep(dataQuiz); //react hook doesn't merge state
+        let question = dataQuizClone.find(item => +item.questionId === +questionId)
+        if (question && question.answers) {
+            question.answers = question.answers.map(item => {
+                if (item.id === +answerId) {
+                    item.isSelected = !item.isSelected;
+                }
+                return item;
+            })
+        }
+        // console.log('question.questionId: ', question.questionId)
+        // console.log('questionId: ', questionId)
+        let index = dataQuizClone.findIndex(item => +item.questionId === +question.questionId)
+        if (index > -1) {
+            dataQuizClone[index] = question;
+            setDataQuiz(dataQuizClone)
+        }
+    }
+
     useEffect(() => {
         fetchQuestions();
     }, [quizId])
@@ -36,16 +56,17 @@ const DetailQuiz = () => {
                 .groupBy("id")
                 // `key` is group's name (color), `value` is the array of objects
                 .map((value, key) => {
-                    let answer = [];
+                    let answers = [];
                     let quesDescription, image = null;
                     value.forEach((item, index) => {
                         if (index === 0) {
                             quesDescription = item.description;
                             image = item.image;
                         }
-                        answer.push(item.answers);
+                        item.answers.isSelected = false;
+                        answers.push(item.answers);
                     })
-                    return { questionId: key, answer, quesDescription, image } // ghi kiểu này bằng answer: answer
+                    return { questionId: key, answers, quesDescription, image } // ghi kiểu này bằng answer: answer
                 })
                 .value()
             console.log("check data: ", data)
@@ -57,7 +78,7 @@ const DetailQuiz = () => {
         <div className="detail-quiz-container .container">
             <div className="left-content col-7">
                 <div className="title">
-                    Quiz {quizId}: {location?.state?.quizTitle};
+                    Quiz {quizId}: {location?.state?.quizTitle}
                     <hr />
                 </div>
                 <div className="q-body">
@@ -66,6 +87,7 @@ const DetailQuiz = () => {
                 <div className="q-content">
                     <Question
                         index={index}
+                        handleCheckBox={handleCheckBox}
                         data={dataQuiz && dataQuiz.length > 0
                             ?
                             dataQuiz[index]
@@ -78,6 +100,9 @@ const DetailQuiz = () => {
                     <button className="btn btn-secondary"
                         onClick={() => handleNext()}
                     >Next</button>
+                    <button className="btn btn-warning"
+                        onClick={() => handleNext()}
+                    >Finish</button>
                 </div>
             </div>
             <div className="right-content col-5">
