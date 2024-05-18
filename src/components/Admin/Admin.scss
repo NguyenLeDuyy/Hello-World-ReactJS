@@ -60,7 +60,11 @@ $icon-size                 : 35px;
     }
 
     .admin-main {
-        height: auto;
+        height: calc(100vh - 40px);
 
+        .user-pagination {
+            display        : flex;
+            justify-content: center;
+        }
     }
 }
