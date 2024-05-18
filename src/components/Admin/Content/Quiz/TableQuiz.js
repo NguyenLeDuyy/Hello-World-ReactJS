@@ -1,12 +1,45 @@
 import { useEffect, useState } from "react";
-// import { getAllQuizForAdmin } from "../../../../service/apiServices";
-
+import { getAllQuizForAdmin } from "../../../../service/apiServices";
+import ModalUpdateQuiz from "./ModalUpdateQuiz";
+import ModalDeleteQuiz from './ModalDeleteQuiz';
 
 const TableQuiz = (props) => {
 
-    const { listQuiz } = props;
-    // const [listQuiz, setListQuiz] = useState([])
+    const [showModalUpdateQuiz, setShowModalUpdateQuiz] = useState(false);
+    const [showModalDeleteQuiz, setShowModalDeleteQuiz] = useState(false);
+    const [dataUpdate, setDataUpdate] = useState({});
+    const [dataDelete, setDataDelete] = useState({});
 
+    // const [listQuiz, setListQuiz] = useState([])
+    const { listQuiz, setListQuiz } = props;
+
+    useEffect(() => {
+        fetchQuiz();
+    }, [])
+
+
+    const fetchQuiz = async () => {
+        let res = await getAllQuizForAdmin();
+        if (res && res.EC === 0) {
+            setListQuiz(res.DT);
+        }
+        // console.log(res)
+    }
+
+    const handleClickBtnUpdate = (quiz) => {
+        setShowModalUpdateQuiz(true);
+        setDataUpdate(quiz);
+        // console.log(user);
+    }
+
+    const resetUpdateData = () => {
+        setDataUpdate({})
+    }
+
+    const handleClickBtnDelete = (quiz) => {
+        setShowModalDeleteQuiz(true);
+        setDataDelete(quiz);
+    }
 
 
     return (
@@ -34,13 +67,13 @@ const TableQuiz = (props) => {
                                     <td>
                                         <button
                                             className="btn btn-warning mx-3"
-                                            onClick={() => props.handleClickBtnUpdate(quiz)}
+                                            onClick={() => handleClickBtnUpdate(quiz)}
                                         >
                                             Edit
                                         </button>
                                         <button
                                             className="btn btn-danger"
-                                            onClick={() => props.handleClickBtnDelete(quiz)}
+                                            onClick={() => handleClickBtnDelete(quiz)}
 
                                         >
                                             Delete
@@ -51,6 +84,19 @@ const TableQuiz = (props) => {
                     </tbody>
                 </table>
             </div>
+            <ModalUpdateQuiz
+                show={showModalUpdateQuiz}
+                setShow={setShowModalUpdateQuiz}
+                dataUpdate={dataUpdate}
+                fetchQuiz={fetchQuiz}
+                resetUpdateData={resetUpdateData}
+            />
+            <ModalDeleteQuiz
+                show={showModalDeleteQuiz}
+                setShow={setShowModalDeleteQuiz}
+                fetchQuiz={fetchQuiz}
+                dataDelete={dataDelete}
+            />
         </>
     )
 }

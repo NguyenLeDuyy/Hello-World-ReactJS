@@ -6,9 +6,7 @@ import { toast } from 'react-toastify';
 import TableQuiz from './TableQuiz';
 import Accordion from 'react-bootstrap/Accordion';
 import { getAllQuizForAdmin } from "../../../../service/apiServices";
-import ModalUpdateQuiz from "./ModalUpdateQuiz";
-import ModalDeleteQuiz from './ModalDeleteQuiz';
-// import ModalDeleteQuiz from "./ModalDeleteQuiz";
+
 
 const options = [
     { value: 'EASY', label: 'EASY' },
@@ -23,17 +21,25 @@ const ManageQuiz = (props) => {
     const [type, setType] = useState('');
     const [image, setImage] = useState(null);
 
-    const [showModalUpdateQuiz, setShowModalUpdateQuiz] = useState(false);
-    const [showModalDeleteQuiz, setShowModalDeleteQuiz] = useState(false);
-    const [dataUpdate, setDataUpdate] = useState({});
-    const [dataDelete, setDataDelete] = useState({});
-
     const [listQuiz, setListQuiz] = useState([])
 
     const handleChangeFile = (event) => {
         if (event.target && event.target.files && event.target.files[0]) {
             setImage(event.target.files[0])
         }
+    }
+
+    useEffect(() => {
+        fetchQuiz();
+    }, [])
+
+
+    const fetchQuiz = async () => {
+        let res = await getAllQuizForAdmin();
+        if (res && res.EC === 0) {
+            setListQuiz(res.DT);
+        }
+        // console.log(res)
     }
 
     const handleSubmitQuiz = async () => {
@@ -49,37 +55,10 @@ const ManageQuiz = (props) => {
             setName('')
             setDescription('')
             setImage(null);
+            fetchQuiz();
         } else {
             toast.error(res.EM)
         }
-    }
-
-    useEffect(() => {
-        fetchQuiz();
-    }, [])
-
-
-    const fetchQuiz = async () => {
-        let res = await getAllQuizForAdmin();
-        if (res && res.EC === 0) {
-            setListQuiz(res.DT);
-        }
-        console.log(res)
-    }
-
-    const handleClickBtnUpdate = (quiz) => {
-        setShowModalUpdateQuiz(true);
-        setDataUpdate(quiz);
-        // console.log(user);
-    }
-
-    const resetUpdateData = () => {
-        setDataUpdate({})
-    }
-
-    const handleClickBtnDelete = (quiz) => {
-        setShowModalDeleteQuiz(true);
-        setDataDelete(quiz);
     }
 
     return (
@@ -148,25 +127,13 @@ const ManageQuiz = (props) => {
                     <TableQuiz
                         listQuiz={listQuiz}
                         setListQuiz={setListQuiz}
-                        fetchQuiz={fetchQuiz}
-                        handleClickBtnUpdate={handleClickBtnUpdate}
-                        handleClickBtnDelete={handleClickBtnDelete}
+                    // fetchQuiz={fetchQuiz}
+                    // handleClickBtnUpdate={handleClickBtnUpdate}
+                    // handleClickBtnDelete={handleClickBtnDelete}
                     />
                 </div>
             </div>
-            <ModalUpdateQuiz
-                show={showModalUpdateQuiz}
-                setShow={setShowModalUpdateQuiz}
-                dataUpdate={dataUpdate}
-                fetchQuiz={fetchQuiz}
-                resetUpdateData={resetUpdateData}
-            />
-            <ModalDeleteQuiz
-                show={showModalDeleteQuiz}
-                setShow={setShowModalDeleteQuiz}
-                fetchQuiz={fetchQuiz}
-                dataDelete={dataDelete}
-            />
+
         </div >
     )
 }

@@ -91,8 +91,8 @@ const putUpdateQuiz = (id, description, name, difficulty, quizImage) => {
     return axios.put('api/v1/quiz', data);
 }
 
-const deleteQuiz = (quizId) => {
-    return axios.delete(`api/v1/quiz/${quizId}`, { data: { id: quizId } });
+const deleteQuizForAdmin = (quizId) => {
+    return axios.delete(`api/v1/quiz/${quizId}`);
 }
 
-export { postCreateNewUser, getAllUsers, putUpdateUser, deleteUser, getUserWithPaginate, postLogin, postSignup, getQuizByUser, getDataQuiz, postSubmitQuiz, postCreateNewQuiz, getAllQuizForAdmin, putUpdateQuiz, deleteQuiz }
+export { postCreateNewUser, getAllUsers, putUpdateUser, deleteUser, getUserWithPaginate, postLogin, postSignup, getQuizByUser, getDataQuiz, postSubmitQuiz, postCreateNewQuiz, getAllQuizForAdmin, putUpdateQuiz, deleteQuizForAdmin }
