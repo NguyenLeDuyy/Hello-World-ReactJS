@@ -7,7 +7,7 @@ import { RiImageAddFill } from "react-icons/ri";
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash'
 import Lightbox from "react-awesome-lightbox";
-import { getAllQuizForAdmin, postCreateNewQuestionForQuiz, postCreateNewAnswerForQuestion } from "../../../../service/apiServices";
+import { getQuizWithQA, getAllQuizForAdmin, postCreateNewQuestionForQuiz, postCreateNewAnswerForQuestion } from "../../../../service/apiServices";
 import { toast } from 'react-toastify';
 
 const QuizQA = (props) => {
@@ -39,9 +39,62 @@ const QuizQA = (props) => {
     const [selectedQuiz, setSelectedQuiz] = useState({})
     const [listQuiz, setListQuiz] = useState([])
 
+    console.log("check selectequiz: ", selectedQuiz)
+
     useEffect(() => {
         fetchQuiz();
     }, [])
+
+    useEffect(() => {
+        if (selectedQuiz && selectedQuiz.value) {
+            fetchQuizWithQA();
+        }
+    }, [selectedQuiz])
+
+
+    // return a promise that resolves with a File instance
+    async function urltoFile(url, filename, mimeType) {
+        if (url.startsWith('data:')) {
+            var arr = url.split(','),
+                mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[arr.length - 1]),
+                n = bstr.length,
+                u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            var file = new File([u8arr], filename, { type: mime || mimeType });
+            return Promise.resolve(file);
+        } else {
+            const res = await fetch(url);
+            const blob = await res.blob();
+            const file = new File([blob], filename, { type: mimeType });
+            return file;
+        }
+    }
+
+    //Usage example:
+
+
+    const fetchQuizWithQA = async () => {
+        const res = await getQuizWithQA(selectedQuiz.value);
+        if (res && res.EC === 0) {
+            //convert base64 to File Object
+            let newQA = [];
+            for (let i = 0; i < res.DT.qa.length; i++) {
+                let q = res.DT.qa[i];
+                if (q.imageFile) {
+                    q.imageName = `Question-${q.id}.png`;
+                    q.imageFile =
+                        await urltoFile(`data:image/png;base64,${q.imageFile}`, `Question-${q.id}.png`, 'image/png')
+                }
+                newQA.push(q);
+            }
+            setQuestions(newQA);
+            // console.log("check newQA: ", newQA)
+            // console.log("check res QA: ", res)
+        }
+    }
 
     const fetchQuiz = async () => {
         let res = await getAllQuizForAdmin();
@@ -148,10 +201,7 @@ const QuizQA = (props) => {
             toast.error("Please choose a Quiz!")
             return;
         }
-
-
         //validate answer
-
         let isValidAnswer = true;
         let indexQ = 0, indexA = 0;
         for (let i = 0; i < questions.length; i++) {
@@ -165,7 +215,6 @@ const QuizQA = (props) => {
             indexQ = i
             if (isValidAnswer === false) break;
         }
-
         if (isValidAnswer === false) {
             toast.error(`Not empty Answer ${indexA + 1} at Question ${indexQ + 1}`);
             return;
@@ -195,7 +244,7 @@ const QuizQA = (props) => {
                 question.description,
                 question.imageFile);
             //submit answers
-            for (const answer of questions.answers) {
+            for (const answer of question.answers) {
                 await postCreateNewAnswerForQuestion(
                     answer.description, answer.isCorrect, q.DT.id
                 )
@@ -336,8 +385,6 @@ const QuizQA = (props) => {
                     />
                 }
             </div>
-
-
         </div >
     )
 }

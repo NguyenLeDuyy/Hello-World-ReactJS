@@ -60,9 +60,9 @@ const TableQuiz = (props) => {
                                     <td>{quiz.name}</td>
                                     <td>{quiz.description}</td>
                                     <td>{quiz.difficulty}</td>
-                                    <td>
+                                    <td style={{ display: "flex", gap: "15px" }}>
                                         <button
-                                            className="btn btn-warning mx-3"
+                                            className="btn btn-warning"
                                             onClick={() => handleClickBtnUpdate(quiz)}
                                         >
                                             Edit
@@ -84,6 +84,7 @@ const TableQuiz = (props) => {
                 show={showModalUpdateQuiz}
                 setShow={setShowModalUpdateQuiz}
                 dataUpdate={dataUpdate}
+                setDataUpdate={setDataUpdate}
                 fetchQuiz={fetchQuiz}
             />
             <ModalDeleteQuiz

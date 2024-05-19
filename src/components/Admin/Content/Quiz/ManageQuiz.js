@@ -35,13 +35,11 @@ const ManageQuiz = (props) => {
         fetchQuiz();
     }, [])
 
-
     const fetchQuiz = async () => {
         let res = await getAllQuizForAdmin();
         if (res && res.EC === 0) {
             setListQuiz(res.DT);
         }
-        // console.log(res)
     }
 
     const handleSubmitQuiz = async () => {
@@ -132,13 +130,19 @@ const ManageQuiz = (props) => {
                     <Accordion.Item eventKey="1">
                         <Accordion.Header>Update Q/A Quizzes</Accordion.Header>
                         <Accordion.Body>
-                            <QuizQA />
+                            <QuizQA
+                                listQuiz={listQuiz}
+                                setListQuiz={setListQuiz}
+                            />
                         </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey="2">
                         <Accordion.Header>Assgin to Users</Accordion.Header>
                         <Accordion.Body>
-                            <AssginQuiz />
+                            <AssginQuiz
+                                listQuiz={listQuiz}
+                                setListQuiz={setListQuiz}
+                            />
                         </Accordion.Body>
                     </Accordion.Item>
                 </Accordion>

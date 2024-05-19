@@ -18,6 +18,7 @@ import ListQuiz from "./components/User/ListQuiz";
 import DetailQuiz from "./components/User/DetailQuiz";
 import ManageQuiz from "./components/Admin/Content/Quiz/ManageQuiz";
 import Questions from "./components/Admin/Content/Question/Questions";
+import PerfectScrollbar from 'react-perfect-scrollbar'
 
 
 const NotFound = () => {

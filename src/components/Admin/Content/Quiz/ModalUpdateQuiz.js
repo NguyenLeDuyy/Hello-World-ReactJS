@@ -7,17 +7,17 @@ import { putUpdateQuizForAdmin } from "../../../../service/apiServices";
 import _ from 'lodash';
 
 const ModalUpdateQuiz = (props) => {
-    const { show, setShow, dataUpdate } = props;
+    const { show, setShow, dataUpdate, setDataUpdate } = props;
     // const [show, setShow] = useState(false);
 
     const handleClose = () => {
-        setShow(false);
+        setShow(false)
         setName("");
         setDescription("");
         setType("");
         setImage("");
         setPreviewImage("");
-        props.resetUpdateData();
+        setDataUpdate({});
     };
 
     const [name, setName] = useState('');
@@ -27,19 +27,17 @@ const ModalUpdateQuiz = (props) => {
     const [previewImage, setPreviewImage] = useState("");
 
     useEffect(() => {
-        console.log('check useEffect', dataUpdate)
         if (!_.isEmpty(dataUpdate)) {
             //update state
-            setName(dataUpdate.name);
             setDescription(dataUpdate.description);
+            setName(dataUpdate.name);
             setType(dataUpdate.difficulty);
             setImage("");
             if (dataUpdate.image) {
-                setPreviewImage(`data: image / jpeg; base64, ${dataUpdate.image}`);
+                setPreviewImage(`data:image/jpeg;base64,${dataUpdate.image}`);
             }
         }
-    }, [dataUpdate])
-    // chỗ này quan trọng! dataUpdate nằm trong dependencies này thì mỗi lần nay đổi giá trị (mỗi lần ấn vào button update => setdataUpdate(user)) thì sẽ chạy lại hook useEffect này
+    }, [props.dataUpdate]);
 
     const handleUploadImage = (event) => {
         if (event.target && event.target.files && event.target.files[0]) {
@@ -49,7 +47,6 @@ const ModalUpdateQuiz = (props) => {
         else {
             // setPreviewImage("");
         }
-        console.log('Upload file', event.target.files[0])
     }
 
     const handleSubmitUpdateQuiz = async () => {
@@ -58,17 +55,13 @@ const ModalUpdateQuiz = (props) => {
             toast.error('Name/Description is required')
             return
         }
-
         let data = await putUpdateQuizForAdmin(dataUpdate.id, description, name, type, image);
-        console.log("component data edit: ", data);
         if (data && data.EC == 0) {
-            // toast.success('Create a new participant succeed')
             toast.success(data.EM)
             handleClose()
             await props.fetchQuiz();
         }
         else if (data && data.EC != 0) {
-            // toast.error('The email ' + email + ' is already exist')
             toast.error(data.EM)
         }
     }
