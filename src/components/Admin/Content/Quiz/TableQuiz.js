@@ -19,21 +19,17 @@ const TableQuiz = (props) => {
 
 
     const fetchQuiz = async () => {
+        setDataDelete({})
+        setDataUpdate({})
         let res = await getAllQuizForAdmin();
         if (res && res.EC === 0) {
             setListQuiz(res.DT);
         }
-        // console.log(res)
     }
 
     const handleClickBtnUpdate = (quiz) => {
         setShowModalUpdateQuiz(true);
         setDataUpdate(quiz);
-        // console.log(user);
-    }
-
-    const resetUpdateData = () => {
-        setDataUpdate({})
     }
 
     const handleClickBtnDelete = (quiz) => {
@@ -89,7 +85,6 @@ const TableQuiz = (props) => {
                 setShow={setShowModalUpdateQuiz}
                 dataUpdate={dataUpdate}
                 fetchQuiz={fetchQuiz}
-                resetUpdateData={resetUpdateData}
             />
             <ModalDeleteQuiz
                 show={showModalDeleteQuiz}

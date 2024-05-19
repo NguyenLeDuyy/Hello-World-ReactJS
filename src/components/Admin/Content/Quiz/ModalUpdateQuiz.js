@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { TbCirclePlus } from "react-icons/tb";
 import { toast } from 'react-toastify';
-import { putUpdateQuiz } from "../../../../service/apiServices";
+import { putUpdateQuizForAdmin } from "../../../../service/apiServices";
 import _ from 'lodash';
 
 const ModalUpdateQuiz = (props) => {
@@ -59,7 +59,7 @@ const ModalUpdateQuiz = (props) => {
             return
         }
 
-        let data = await putUpdateQuiz(dataUpdate.id, description, name, type, image);
+        let data = await putUpdateQuizForAdmin(dataUpdate.id, description, name, type, image);
         console.log("component data edit: ", data);
         if (data && data.EC == 0) {
             // toast.success('Create a new participant succeed')

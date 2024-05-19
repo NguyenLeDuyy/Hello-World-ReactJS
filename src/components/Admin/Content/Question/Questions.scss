@@ -1,6 +1,16 @@
 .questiosn-container {
     padding: 15px;
 
+    /* Increase z-index for dropdown options */
+    .select-quiz {
+        z-index: 99;
+    }
+
+    /* Decrease z-index for span */
+    // span {
+    //     z-index: 1;
+    // }
+
     .title {
         margin-bottom: 15px;
         font-size    : 20px;

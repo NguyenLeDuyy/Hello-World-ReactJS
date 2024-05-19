@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import './Questions.scss'
 import { TbCodePlus, TbCodeMinus } from "react-icons/tb";
@@ -7,12 +7,13 @@ import { RiImageAddFill } from "react-icons/ri";
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash'
 import Lightbox from "react-awesome-lightbox";
+import { getAllQuizForAdmin, postCreateNewQuestionForQuiz, postCreateNewAnswerForQuestion } from "../../../../service/apiServices";
 
-const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
-];
+// const options = [
+//     { value: 'chocolate', label: 'Chocolate' },
+//     { value: 'strawberry', label: 'Strawberry' },
+//     { value: 'vanilla', label: 'Vanilla' },
+// ];
 
 const Questions = (props) => {
 
@@ -41,6 +42,25 @@ const Questions = (props) => {
         title: '',
         url: ''
     })
+
+    const [listQuiz, setListQuiz] = useState([])
+
+    useEffect(() => {
+        fetchQuiz();
+    }, [])
+
+    const fetchQuiz = async () => {
+        let res = await getAllQuizForAdmin();
+        if (res && res.EC === 0) {
+            let newQuiz = res.DT.map((item) => {
+                return {
+                    value: item.id,
+                    label: `${item.id} - ${item.description}`
+                }
+            })
+            setListQuiz(newQuiz);
+        }
+    }
 
     const handleAddRemoveQuestion = (type, id) => {
         if (type === 'ADD') {
@@ -128,8 +148,24 @@ const Questions = (props) => {
         }
     }
 
-    const handleSubmitQuestionForQuiz = () => {
-        console.log("questions: ", questions)
+    const handleSubmitQuestionForQuiz = async () => {
+        //todo
+        //validate data
+
+        //submit questions
+        // postCreateNewQuestionForQuiz
+        await Promise.all(questions.map(async (question) => {
+            const q = await postCreateNewQuestionForQuiz(
+                +selectedQuiz.value,
+                question.description,
+                question.imageFile);
+            //submit answers
+            await Promise.all(question.answers.map(async (answer) => {
+                await postCreateNewAnswerForQuestion(
+                    answer.description, answer.isCorrect, q.DT.id
+                )
+            }))
+        }));
 
     }
 
@@ -154,10 +190,10 @@ const Questions = (props) => {
             <div className='add-new-question'>
                 <div className='col-6 form-group'>
                     <label className='mb-2'>Select Quiz: </label>
-                    <Select
+                    <Select className='select-quiz'
                         defaultValue={selectedQuiz}
                         onChange={setSelectedQuiz}
-                        options={options}
+                        options={listQuiz}
                     />
                 </div>
                 <div className='mt-3 mb-2'>
@@ -178,7 +214,9 @@ const Questions = (props) => {
                                             value={question.description}
                                             onChange={(event) => handleOnChange('QUESTION', question.id, event.target.value)}
                                         />
-                                        <label >Question {index + 1}'s description</label>
+                                        <label htmlFor={`question-${index}`} >
+                                            Question {index + 1}'s description
+                                        </label>
                                     </div>
                                     <div className='group-upload'>
                                         <label htmlFor={`${question.id}`}>
@@ -201,7 +239,7 @@ const Questions = (props) => {
                                             <TbCodePlus className='icon-add' />
                                         </span>
                                         {questions.length > 1 &&
-                                            <span span onClick={() => { handleAddRemoveQuestion('REMOVE', question.id) }}>
+                                            <span onClick={() => { handleAddRemoveQuestion('REMOVE', question.id) }}>
                                                 <TbCodeMinus className='icon-remove' />
                                             </span>
                                         }
@@ -226,7 +264,7 @@ const Questions = (props) => {
                                                         value={answer.description}
                                                         onChange={(event) => handleAnswerQuestion('INPUT', answer.id, question.id, event.target.value)}
                                                     />
-                                                    <label >Answers {index + 1}</label>
+                                                    <label htmlFor={`answer-${index}`} >Answers {index + 1}</label>
                                                 </div>
                                                 <div className='btn-group'>
                                                     <span onClick={() => handleAddRemoveAnswer('ADD', question.id, '')}>
