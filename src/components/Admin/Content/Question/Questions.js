@@ -201,7 +201,7 @@ const Questions = (props) => {
                 question.description,
                 question.imageFile);
             //submit answers
-            for (const answer of questions.answers) {
+            for (const answer of question.answers) {
                 await postCreateNewAnswerForQuestion(
                     answer.description, answer.isCorrect, q.DT.id
                 )
