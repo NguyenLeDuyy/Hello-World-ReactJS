@@ -1,0 +1,109 @@
+.questiosn-container {
+    padding: 15px;
+
+    /* Increase z-index for dropdown options */
+    .select-quiz {
+        z-index: 99;
+    }
+
+    /* Decrease z-index for span */
+    // span {
+    //     z-index: 1;
+    // }
+
+    .title {
+        margin-bottom: 15px;
+        font-size    : 20px;
+        font-weight  : 600;
+    }
+
+    .questions-content {
+        display: flex;
+        gap    : 20px;
+
+        .description {
+            width: 50%;
+        }
+
+        .group-upload {
+            padding-top: 15px;
+
+            .lable-upload {
+                margin-right: 5px;
+                cursor      : pointer;
+                color       : #9068ff;
+                font-size   : 25px;
+
+                &:hover {
+                    color: #4400ff;
+                }
+            }
+        }
+
+        .btn-add {
+            padding: 15px;
+
+            .icon-add {
+                font-size: 25px;
+                color    : #2596ff;
+                cursor   : pointer;
+
+                &:hover {
+                    color: #0989ff;
+                }
+            }
+
+            .icon-remove {
+                margin-left: 10px;
+                font-size  : 25px;
+                color      : #e8771c;
+                cursor     : pointer;
+
+                &:hover {
+                    color: #ff7608;
+                }
+            }
+        }
+    }
+
+    .answers-content {
+        display     : flex;
+        gap         : 10px;
+        padding-left: 20px;
+        padding-top : 15px;
+        align-items : center;
+
+        .iscorrect {
+            font-size: 20px;
+        }
+
+        .answer-name {
+            width: 60%;
+        }
+
+        .btn-group {
+            padding: 15px;
+
+            .icon-add {
+                font-size: 25px;
+                color    : #2596ff;
+                cursor   : pointer;
+
+                &:hover {
+                    color: #0989ff;
+                }
+            }
+
+            .icon-remove {
+                margin-left: 10px;
+                font-size  : 25px;
+                color      : #e8771c;
+                cursor     : pointer;
+
+                &:hover {
+                    color: #ff7608;
+                }
+            }
+        }
+    }
+}

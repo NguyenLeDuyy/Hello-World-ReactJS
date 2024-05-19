@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
-import './ManageQuiz.scss'
 import Select from 'react-select';
+import './ManageQuiz.scss'
 import { postCreateNewQuiz } from '../../../../service/apiServices'
 import { toast } from 'react-toastify';
 import TableQuiz from './TableQuiz';
 import Accordion from 'react-bootstrap/Accordion';
 import { getAllQuizForAdmin } from "../../../../service/apiServices";
+import QuizQA from './QuizQA';
+import AssginQuiz from './AssignQuiz';
 
 
 const options = [
@@ -119,19 +121,28 @@ const ManageQuiz = (props) => {
                                     </div>
                                 </fieldset>
                             </div>
+                            <div className="list-detail">
+                                <TableQuiz
+                                    listQuiz={listQuiz}
+                                    setListQuiz={setListQuiz}
+                                />
+                            </div>
+                        </Accordion.Body>
+                    </Accordion.Item>
+                    <Accordion.Item eventKey="1">
+                        <Accordion.Header>Update Q/A Quizzes</Accordion.Header>
+                        <Accordion.Body>
+                            <QuizQA />
+                        </Accordion.Body>
+                    </Accordion.Item>
+                    <Accordion.Item eventKey="2">
+                        <Accordion.Header>Assgin to Users</Accordion.Header>
+                        <Accordion.Body>
+                            <AssginQuiz />
                         </Accordion.Body>
                     </Accordion.Item>
                 </Accordion>
 
-                <div className="list-detail">
-                    <TableQuiz
-                        listQuiz={listQuiz}
-                        setListQuiz={setListQuiz}
-                    // fetchQuiz={fetchQuiz}
-                    // handleClickBtnUpdate={handleClickBtnUpdate}
-                    // handleClickBtnDelete={handleClickBtnDelete}
-                    />
-                </div>
             </div>
 
         </div >
