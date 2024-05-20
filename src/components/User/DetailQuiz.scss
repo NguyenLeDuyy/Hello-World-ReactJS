@@ -83,6 +83,14 @@
                 &:hover {
                     color: red;
                 }
+
+                &.selected {
+                    background-image: linear-gradient(to right, #fffbd5, #ECBBAA, #DA8483, #C43D51);
+                }
+
+                &.clicked {
+                    color: red;
+                }
             }
         }
     }
