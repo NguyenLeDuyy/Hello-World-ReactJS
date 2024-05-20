@@ -10,7 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'nprogress/nprogress.css';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import "react-awesome-lightbox/build/style.css";
-
+import './utils/i18n';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

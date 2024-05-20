@@ -20,6 +20,7 @@ import ManageQuiz from "./components/Admin/Content/Quiz/ManageQuiz";
 import Questions from "./components/Admin/Content/Question/Questions";
 // import PerfectScrollbar from 'react-perfect-scrollbar'
 import PrivateRoute from "./components/routes/PrivateRoute";
+import { Suspense } from "react";
 
 
 const NotFound = () => {
@@ -31,7 +32,7 @@ const NotFound = () => {
 }
 const Layout = () => {
     return (
-        <>
+        <Suspense fallback={<div>Loading ...</div>}>
             <Routes>
                 <Route path="/" element={<App />} >
                     <Route index element={<HomePage />} />
@@ -71,7 +72,7 @@ const Layout = () => {
                 theme="light"
             // transition:Bounce
             />
-        </>
+        </Suspense>
     )
 }
 export default Layout;
