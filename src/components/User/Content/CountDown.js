@@ -18,9 +18,7 @@ const CountDown = (props) => {
         timer2 setCoung => change count 
         */
         return () => {
-            {
-                clearInterval(timer);
-            }
+            clearInterval(timer);
         }
     }, [count])
 

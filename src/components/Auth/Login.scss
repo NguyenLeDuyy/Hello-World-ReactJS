@@ -25,13 +25,14 @@
         flex-direction : row;
         align-items    : center;
         justify-content: flex-end;
+        gap            : 10px;
 
         button {
-            padding      : 3px 15px;
-            margin-left  : 15px;
-            border-radius: 5px;
-            background   : #f5f3f3;
-            border       : 1px solid;
+            padding         : 3px 15px;
+            // margin-left  : 15px;
+            border-radius   : 5px;
+            background      : #f5f3f3;
+            border          : 1px solid;
 
             &:hover {
                 background-color: white;

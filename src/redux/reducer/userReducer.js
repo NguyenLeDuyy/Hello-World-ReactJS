@@ -1,7 +1,4 @@
-
-import { INCREMENT, DECREMENT } from '../action/counterAction';
-
-import { FETCH_USER_LOGIN_SUCCES } from '../action/userAction';
+import { FETCH_USER_LOGIN_SUCCES, FETCH_USER_LOGOUT_SUCCES } from '../action/userAction';
 
 const INITIAL_STATE = {
     account: {
@@ -9,10 +6,10 @@ const INITIAL_STATE = {
         refresh_token: '',
         image: '',
         role: '',
-        username: ''
+        username: '',
+        email: ''
     },
     isAuthenticated: false
-    //người dùng đăng nhập chưa
 };
 const userReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
@@ -24,14 +21,23 @@ const userReducer = (state = INITIAL_STATE, action) => {
                     refresh_token: action?.payload?.DT?.refresh_token,
                     image: action?.payload?.DT?.image,
                     ROLE: action?.payload?.DT?.role,
-                    username: action?.payload?.DT?.username
+                    username: action?.payload?.DT?.username,
+                    email: action?.payload?.DT?.email
                 },
                 isAuthenticated: true
             };
 
-        case DECREMENT:
+        case FETCH_USER_LOGOUT_SUCCES:
             return {
-                ...state, count: state.count - 1,
+                ...state, account: {
+                    access_token: '',
+                    refresh_token: '',
+                    image: '',
+                    role: '',
+                    username: '',
+                    email: ''
+                },
+                isAuthenticated: false
             };
         default: return state;
     }
