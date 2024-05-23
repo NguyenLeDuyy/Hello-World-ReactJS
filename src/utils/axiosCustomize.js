@@ -31,7 +31,12 @@ instance.interceptors.response.use(function (response) {
     // Do something with response data
     return response && response.data ? response.data : response;
 }, function (error) {
-    NProgress.done();
+
+    //token expired: EC === -999
+    if (error.response.data & error.response.data.EC === -999) {
+        window.location.href = '/login'
+    }
+    // NProgress.done();
     // Do something with response error
     return error && error.response && error.response.data ? error.response.data : Promise.reject(error);
 });

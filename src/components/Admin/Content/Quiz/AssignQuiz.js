@@ -14,7 +14,7 @@ const AssginQuiz = (props) => {
     const [selectedUser, setSelectedUser] = useState({})
 
     useEffect(() => {
-        fetchQuiz();
+        fetchQuiz();;
         fetchUser();
     }, [])
 

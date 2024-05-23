@@ -136,8 +136,6 @@ const ModalUpdateUser = (props) => {
                             >
                                 <option value="USER">USER</option>
                                 <option value="ADMIN">ADMIN</option>
-                                <option value="ADMIN">CUSTOMER</option>
-                                <option value="ADMIN">SUPPLIER</option>
                             </select>
                         </div>
                         <div className='col-md-12'>

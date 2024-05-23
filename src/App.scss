@@ -44,14 +44,33 @@ body {
     }
 
     .navbar {
-      padding-top     : 20px;
-      z-index         : 10;
-      // opacity: 0.6;
-      background-color: rgba(0, 0, 0, 0) !important;
+      padding-top        : 20px;
+      z-index            : 10;
+      // opacity         : 1 !important;
+      background-color   : rgba(0, 0, 0, 0) !important;
 
       .nav-link {
         &.active {
           color: #00bfff;
+        }
+      }
+    }
+
+    .navbar-brand {
+      .loader-icon {
+        font-size    : 25px !important;
+        margin-bottom: 3px !important;
+        color        : #00bfff !important;
+        animation    : spin 5s infinite linear !important;
+      }
+
+      @keyframes spin {
+        from {
+          transform: scale(1) rotate(0deg);
+        }
+
+        to {
+          transform: scale(1) rotate(360deg);
         }
       }
     }

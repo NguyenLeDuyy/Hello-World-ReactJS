@@ -1,4 +1,4 @@
-import { FETCH_USER_LOGIN_SUCCES, FETCH_USER_LOGOUT_SUCCES } from '../action/userAction';
+import { FETCH_USER_LOGIN_SUCCES, FETCH_USER_LOGOUT_SUCCES, FETCH_USER_UPDATE_SUCCES } from '../action/userAction';
 
 const INITIAL_STATE = {
     account: {
@@ -38,6 +38,16 @@ const userReducer = (state = INITIAL_STATE, action) => {
                     email: ''
                 },
                 isAuthenticated: false
+            };
+
+        case FETCH_USER_UPDATE_SUCCES:
+            return {
+                ...state,
+                account: {
+                    image: action?.payload?.DT?.image,
+                    username: action?.payload?.DT?.username,
+                },
+                isAuthenticated: true
             };
         default: return state;
     }

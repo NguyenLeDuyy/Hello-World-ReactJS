@@ -95,3 +95,18 @@
         }
     }
 }
+
+.quiz-detail-new-header {
+    padding: 25px 70px;
+
+    .breadcrumb-item,
+    a {
+
+        font-size: 20px;
+    }
+
+    a {
+        text-decoration: none !important;
+        color          : #C43D51;
+    }
+}

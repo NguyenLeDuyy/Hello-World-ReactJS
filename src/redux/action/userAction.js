@@ -1,5 +1,6 @@
 export const FETCH_USER_LOGIN_SUCCES = 'FETCH_USER_Thanh_CONG_OHYEAH';
 export const FETCH_USER_LOGOUT_SUCCES = 'FETCH_USER_LOGOUT_SUCCES';
+export const FETCH_USER_UPDATE_SUCCES = 'FETCH_USER_UPDATE_SUCCES';
 
 
 export const doLogin = (data) => {
@@ -12,5 +13,12 @@ export const doLogin = (data) => {
 export const doLogout = () => {
     return {
         type: FETCH_USER_LOGOUT_SUCCES,
+    }
+}
+
+export const doUpdate = (data) => {
+    return {
+        type: FETCH_USER_LOGOUT_SUCCES,
+        payload: data
     }
 }

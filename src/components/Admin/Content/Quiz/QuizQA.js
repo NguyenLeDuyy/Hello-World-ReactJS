@@ -38,7 +38,9 @@ const QuizQA = (props) => {
 
     const [selectedQuiz, setSelectedQuiz] = useState({})
     const [listQuiz, setListQuiz] = useState([])
+    // const { listQuiz, setListQuiz } = props;
 
+    console.log("check listQuiz in QuizQA: ", listQuiz)
     console.log("check selectequiz: ", selectedQuiz)
 
     useEffect(() => {
@@ -50,30 +52,6 @@ const QuizQA = (props) => {
             fetchQuizWithQA();
         }
     }, [selectedQuiz])
-
-
-    // return a promise that resolves with a File instance
-    async function urltoFile(url, filename, mimeType) {
-        if (url.startsWith('data:')) {
-            var arr = url.split(','),
-                mime = arr[0].match(/:(.*?);/)[1],
-                bstr = atob(arr[arr.length - 1]),
-                n = bstr.length,
-                u8arr = new Uint8Array(n);
-            while (n--) {
-                u8arr[n] = bstr.charCodeAt(n);
-            }
-            var file = new File([u8arr], filename, { type: mime || mimeType });
-            return Promise.resolve(file);
-        } else {
-            const res = await fetch(url);
-            const blob = await res.blob();
-            const file = new File([blob], filename, { type: mimeType });
-            return file;
-        }
-    }
-
-    //Usage example:
 
 
     const fetchQuizWithQA = async () => {
@@ -108,6 +86,32 @@ const QuizQA = (props) => {
             setListQuiz(newQuiz);
         }
     }
+
+    // return a promise that resolves with a File instance
+    async function urltoFile(url, filename, mimeType) {
+        if (url.startsWith('data:')) {
+            var arr = url.split(','),
+                mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[arr.length - 1]),
+                n = bstr.length,
+                u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            var file = new File([u8arr], filename, { type: mime || mimeType });
+            return Promise.resolve(file);
+        } else {
+            const res = await fetch(url);
+            const blob = await res.blob();
+            const file = new File([blob], filename, { type: mimeType });
+            return file;
+        }
+    }
+
+    //Usage example:
+
+
+
 
     const handleAddRemoveQuestion = (type, id) => {
         if (type === 'ADD') {

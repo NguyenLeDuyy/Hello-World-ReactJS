@@ -4,7 +4,8 @@ import './ManageQuiz.scss'
 import { postCreateNewQuiz } from '../../../../service/apiServices'
 import { toast } from 'react-toastify';
 import TableQuiz from './TableQuiz';
-import Accordion from 'react-bootstrap/Accordion';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
 import { getAllQuizForAdmin } from "../../../../service/apiServices";
 import QuizQA from './QuizQA';
 import AssginQuiz from './AssignQuiz';
@@ -22,7 +23,6 @@ const ManageQuiz = (props) => {
     const [description, setDescription] = useState('');
     const [type, setType] = useState('');
     const [image, setImage] = useState(null);
-
     const [listQuiz, setListQuiz] = useState([])
 
     const handleChangeFile = (event) => {
@@ -56,6 +56,7 @@ const ManageQuiz = (props) => {
             setDescription('')
             setImage(null);
             fetchQuiz();
+            window.location.reload();
         } else {
             toast.error(res.EM)
         }
@@ -64,89 +65,88 @@ const ManageQuiz = (props) => {
     return (
         <div>
             <div className="quiz-container">
-                <Accordion defaultActiveKey="0">
-                    <Accordion.Item eventKey="0">
-                        <Accordion.Header>Manage Quizzes</Accordion.Header>
-                        <Accordion.Body>
-                            <div className="add-new">
-                                <fieldset className="border rounded-3 p-3">
-                                    <legend className="float-none w-auto px-3">Add new Quiz:</legend>
-                                    <div className="form-floating mb-3">
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            placeholder='Your quiz name'
-                                            value={name}
-                                            onChange={(event) => setName(event.target.value)}
-                                        />
-                                        <label >Name</label>
-                                    </div>
-                                    <div className="form-floating">
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            placeholder='Description'
-                                            value={description}
-                                            onChange={(event) => setDescription(event.target.value)}
-                                        />
-                                        <label >Description</label>
-                                    </div>
-                                    <div className='my-3'>
-                                        <Select
-                                            value={type}
-                                            // onChange={this.handleChange}
-                                            defaultValue={type}
-                                            onChange={setType}
-                                            options={options}
+                <Tabs
+                    defaultActiveKey="profile"
+                    id="fill-tab-example"
+                    className="mb-3"
+                    fill
+                    justify
+                >
+                    <Tab eventKey="home" title="Manage Quizzes">
+                        <div className="add-new">
+                            <fieldset className="border rounded-3 p-3">
+                                <legend className="float-none w-auto px-3">Add new Quiz:</legend>
+                                <div className="form-floating mb-3">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder='Your quiz name'
+                                        value={name}
+                                        onChange={(event) => setName(event.target.value)}
+                                    />
+                                    <label >Name</label>
+                                </div>
+                                <div className="form-floating">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder='Description'
+                                        value={description}
+                                        onChange={(event) => setDescription(event.target.value)}
+                                    />
+                                    <label >Description</label>
+                                </div>
+                                <div className='my-3'>
+                                    <Select
+                                        value={type}
+                                        // onChange={this.handleChange}
+                                        defaultValue={type}
+                                        onChange={setType}
+                                        options={options}
 
-                                            placeholder={"Quiz type..."}
-                                        />
-                                    </div>
-                                    <div className="more-actions form-group">
-                                        <label className='mb-1'>Upload Image</label>
-                                        <input
-                                            type='file'
-                                            className='form-control'
-                                            onChange={(event) => handleChangeFile(event)}
-                                        />
-                                    </div>
+                                        placeholder={"Quiz type..."}
+                                    />
+                                </div>
+                                <div className="more-actions form-group">
+                                    <label className='mb-1'>Upload Image</label>
+                                    <input
+                                        type='file'
+                                        className='form-control'
+                                        onChange={(event) => handleChangeFile(event)}
+                                    />
+                                </div>
 
-                                    <div className='mt-3'>
-                                        <button
-                                            className='btn btn-warning'
-                                            onClick={() => handleSubmitQuiz()}
-                                        >Save</button>
-                                    </div>
-                                </fieldset>
-                            </div>
-                            <div className="list-detail">
-                                <TableQuiz
-                                    listQuiz={listQuiz}
-                                    setListQuiz={setListQuiz}
-                                />
-                            </div>
-                        </Accordion.Body>
-                    </Accordion.Item>
-                    <Accordion.Item eventKey="1">
-                        <Accordion.Header>Update Q/A Quizzes</Accordion.Header>
-                        <Accordion.Body>
-                            <QuizQA
+                                <div className='mt-3'>
+                                    <button
+                                        className='btn btn-warning'
+                                        onClick={() => handleSubmitQuiz()}
+                                    >Save</button>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div className="list-detail">
+                            <TableQuiz
                                 listQuiz={listQuiz}
                                 setListQuiz={setListQuiz}
+                                fetchQuiz={fetchQuiz}
                             />
-                        </Accordion.Body>
-                    </Accordion.Item>
-                    <Accordion.Item eventKey="2">
-                        <Accordion.Header>Assgin to Users</Accordion.Header>
-                        <Accordion.Body>
-                            <AssginQuiz
-                                listQuiz={listQuiz}
-                                setListQuiz={setListQuiz}
-                            />
-                        </Accordion.Body>
-                    </Accordion.Item>
-                </Accordion>
-
+                        </div>
+                    </Tab>
+                    <Tab eventKey="profile" title="Update Q/A Quizzes">
+                        <QuizQA
+                            listQuiz={listQuiz}
+                            setListQuiz={setListQuiz}
+                            fetchQuiz={fetchQuiz}
+                        />
+                    </Tab>
+                    <Tab eventKey="longer-tab" title="Assgin to Users">
+                        <AssginQuiz
+                            listQuiz={listQuiz}
+                            setListQuiz={setListQuiz}
+                            fetchQuiz={fetchQuiz}
+                        />
+                    </Tab>
+                </Tabs>
             </div>
 
         </div >
