@@ -58,6 +58,7 @@ const Questions = (props) => {
     useEffect(() => {
         if (selectedQuiz && selectedQuiz.value) {
             fetchQuizWithQA();
+            // setQuestions(initQuestions)
         }
     }, [selectedQuiz])
 
@@ -76,7 +77,9 @@ const Questions = (props) => {
                 }
                 newQA.push(q);
             }
-            setQuestions(newQA);
+            if (newQA.length > 0) { // Check if newQA is not empty
+                setQuestions(newQA);
+            }
             // console.log("check newQA: ", newQA)
             // console.log("check res QA: ", res)
         }
@@ -265,6 +268,7 @@ const Questions = (props) => {
         if (res && res.EC === 0) {
             toast.success(res.EM);
             fetchQuizWithQA();
+
         }
         else
             toast.error(res.EM)

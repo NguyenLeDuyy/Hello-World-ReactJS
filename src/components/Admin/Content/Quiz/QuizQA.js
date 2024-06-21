@@ -40,8 +40,8 @@ const QuizQA = (props) => {
     const [listQuiz, setListQuiz] = useState([])
     // const { listQuiz, setListQuiz } = props;
 
-    console.log("check listQuiz in QuizQA: ", listQuiz)
-    console.log("check selectequiz: ", selectedQuiz)
+    // console.log("check listQuiz in QuizQA: ", listQuiz)
+    // console.log("check selectequiz: ", selectedQuiz)
 
     useEffect(() => {
         fetchQuiz();
@@ -50,9 +50,23 @@ const QuizQA = (props) => {
     useEffect(() => {
         if (selectedQuiz && selectedQuiz.value) {
             fetchQuizWithQA();
+
         }
     }, [selectedQuiz])
 
+
+    const fetchQuiz = async () => {
+        let res = await getAllQuizForAdmin();
+        if (res && res.EC === 0) {
+            let newQuiz = res.DT.map((item) => {
+                return {
+                    value: item.id,
+                    label: `${item.id} - ${item.description}`
+                }
+            })
+            setListQuiz(newQuiz);
+        }
+    }
 
     const fetchQuizWithQA = async () => {
         const res = await getQuizWithQA(selectedQuiz.value);
@@ -68,22 +82,11 @@ const QuizQA = (props) => {
                 }
                 newQA.push(q);
             }
-            setQuestions(newQA);
+            if (newQA.length > 0) { // Check if newQA is not empty
+                setQuestions(newQA);
+            }
             // console.log("check newQA: ", newQA)
             // console.log("check res QA: ", res)
-        }
-    }
-
-    const fetchQuiz = async () => {
-        let res = await getAllQuizForAdmin();
-        if (res && res.EC === 0) {
-            let newQuiz = res.DT.map((item) => {
-                return {
-                    value: item.id,
-                    label: `${item.id} - ${item.description}`
-                }
-            })
-            setListQuiz(newQuiz);
         }
     }
 
@@ -253,7 +256,7 @@ const QuizQA = (props) => {
             quizId: selectedQuiz.value,
             questions: questionsClone
         });
-        console.log("check res: ", res)
+        // console.log("check res: ", res)
         if (res && res.EC === 0) {
             toast.success(res.EM);
             fetchQuizWithQA();
@@ -296,7 +299,7 @@ const QuizQA = (props) => {
                 <div className='mt-3 mb-2'>
                     Add questions:
                 </div>
-
+                {/* {console.log("check ques ultimate: ", questions)} */}
                 {
                     questions && questions.length > 0
                     && questions.map((question, index) => {
